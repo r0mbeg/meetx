@@ -1,0 +1,20 @@
+spring:
+  config:
+    import: optional:file:../.env[.properties]
+  datasource:
+    name: ${POSTGRES_DB:postgres}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/${POSTGRES_DB:postgres}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${DDL_MODE:none}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  jackson:
+    time-zone: ${TZ}
+logging:
+  level:
+    com.proffen: INFO
+    org.springframework: INFO
