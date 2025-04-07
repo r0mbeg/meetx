@@ -1,0 +1,24 @@
+services:
+  backend:
+    image: ${BACKEND_IMAGE}
+    container_name: meetx__backend
+    environment:
+      - POSTGRES_HOST=meetx__postgres:5432
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+  postgres:
+    image: ${POSTGRES_IMAGE}
+    container_name: meetx__postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+    driver: local
+      
