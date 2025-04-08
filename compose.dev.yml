@@ -1,7 +1,10 @@
 services:
   backend:
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
   postgres:
     ports:
       - "5432:5432"
+  pgadmin:
+    ports:
+      - "15432:15432"

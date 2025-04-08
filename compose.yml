@@ -1,4 +1,48 @@
+---
+x-healthcheck: &healthcheck
+  interval: 10s
+  timeout: 5s
+  retries: 5
+  start_period: 15s
+
+x-healthy: &healthy
+  condition: service_healthy
+
 services:
+  postgres:
+    image: ${POSTGRES_IMAGE}
+    container_name: meetx__postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      <<: *healthcheck
+      start_period: 1s
+      test:
+        ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+    networks:
+      - meetx_network
+
+  pgadmin:
+    image: ${PGADMIN_IMAGE}
+    container_name: meetx__pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
+      - TZ=${TZ}
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:${PGADMIN_LISTEN_PORT}"]
+    depends_on:
+      postgres:
+        <<: *healthy
+    networks:
+      - meetx_network
+
   backend:
     image: ${BACKEND_IMAGE}
     container_name: meetx__backend
@@ -7,18 +51,19 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      <<: *healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:${BACKEND_PORT}/actuator/health"]
     depends_on:
-      - postgres
-  postgres:
-    image: ${POSTGRES_IMAGE}
-    container_name: meetx__postgres
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      postgres:
+        <<: *healthy
+    networks:
+      - meetx_network
+
 volumes:
   pgdata:
     driver: local
-      
+
+networks:
+  meetx_network:
+    driver: bridge
