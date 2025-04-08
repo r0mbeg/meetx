@@ -1,33 +1,51 @@
-HELP.md
+# === Java & Maven ===
 target/
-!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+
+# === Maven Wrapper (оставляем только jar) ===
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# === Eclipse ===
+.classpath
+.project
+.settings/
+.apt_generated
+.factorypath
+.springBeans
+
+# === NetBeans ===
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# === VS Code ===
+.vscode/
+
+# === Logs ===
+*.log
+
+# === OS / Temp Files ===
+.DS_Store
+Thumbs.db
+
+# === Other build dirs in src (just in case) ===
+**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+**/target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
