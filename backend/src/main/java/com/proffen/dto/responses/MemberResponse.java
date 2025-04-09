@@ -28,7 +28,7 @@ public record MemberResponse(
         //@NotNull(message = "Role must not be null")
         //Role role
         ) {
-
+        //test comment
     public static MemberResponse toResponse(Member member) {
         if (member == null) {
             throw new IllegalArgumentException("Member cannot be null");
