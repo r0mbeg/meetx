@@ -1,9 +1,8 @@
-package com.proffen.domain;
+package com.proffen.models;
 
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

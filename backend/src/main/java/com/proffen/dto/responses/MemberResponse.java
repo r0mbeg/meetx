@@ -1,6 +1,6 @@
 package com.proffen.dto.responses;
 
-import com.proffen.domain.Member;
+import com.proffen.models.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 public record MemberResponse(
 
         @NotNull(message = "Member id must not be null")
-        @Positive(message = "Member id must not be positive")
+        @Positive(message = "Member id must be positive")
         Long id,
 
         @NotBlank(message = "Username must not be empty")

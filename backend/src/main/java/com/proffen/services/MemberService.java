@@ -1,7 +1,7 @@
 package com.proffen.services;
 
 
-import com.proffen.domain.Member;
+import com.proffen.models.Member;
 import com.proffen.exceptions.ResourceNotFoundException;
 import com.proffen.repo.MemberRepo;
 import lombok.RequiredArgsConstructor;
