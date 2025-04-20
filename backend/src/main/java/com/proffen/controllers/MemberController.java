@@ -3,6 +3,7 @@ package com.proffen.controllers;
 
 import com.proffen.dto.responses.MemberResponse;
 import com.proffen.services.MemberService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Slf4j
+@SecurityRequirement(name = "JWT")
 public class MemberController {
 
     private final MemberService memberService;

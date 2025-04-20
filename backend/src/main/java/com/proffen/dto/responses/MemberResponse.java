@@ -1,6 +1,7 @@
 package com.proffen.dto.responses;
 
 import com.proffen.models.Member;
+import com.proffen.models.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,12 +24,12 @@ public record MemberResponse(
 
         @NotBlank(message = "Email must not be empty")
         @Email(message = "Email should be valid")
-        String email//,
+        String email,
 
-        //@NotNull(message = "Role must not be null")
-        //Role role
+        @NotNull(message = "Role must not be null")
+        Role role
         ) {
-        //test comment
+
     public static MemberResponse toResponse(Member member) {
         if (member == null) {
             throw new IllegalArgumentException("Member cannot be null");
@@ -38,8 +39,8 @@ public record MemberResponse(
                 member.getId(),
                 member.getUsername(),
                 member.getName(),
-                member.getEmail()//,
-                //member.getRole()
+                member.getEmail(),
+                member.getRole()
         );
     }
 }

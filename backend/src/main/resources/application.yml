@@ -18,3 +18,8 @@ logging:
   level:
     com.proffen: INFO
     org.springframework: INFO
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    access: ${JWT_ACCESS_TTL}
+    refresh: ${JWT_REFRESH_TTL}
