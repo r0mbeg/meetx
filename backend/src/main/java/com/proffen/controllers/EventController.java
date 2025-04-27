@@ -3,6 +3,7 @@ package com.proffen.controllers;
 
 import com.proffen.dto.responses.EventResponse;
 import com.proffen.services.EventService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Slf4j
+@SecurityRequirement(name = "JWT")
 public class EventController {
 
     private final EventService eventService;

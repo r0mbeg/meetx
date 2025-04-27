@@ -1,13 +1,30 @@
 package com.proffen.dto.requests;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+@Schema(description = "Member sign-in credentials request payload")
 public record MemberLogInRequest(
+
+        @Schema(
+                description = "Unique username for authentication",
+                example = "test_username",
+                minLength = 4,
+                maxLength = 32,
+                requiredMode = Schema.RequiredMode.REQUIRED
+        )
         @NotBlank(message = "Username must not be blank")
         @Size(min = 4, max = 32, message = "Username must be 4-32 characters")
         String username,
 
+        @Schema(
+                description = "Member's password",
+                example = "test_password",
+                minLength = 5,
+                maxLength = 64,
+                requiredMode = Schema.RequiredMode.REQUIRED
+        )
         @NotBlank(message = "Password must not be blank")
         @Size(min = 5, max = 64, message = "Password must be 8-64 characters")
         String password
