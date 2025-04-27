@@ -2,6 +2,7 @@ package com.proffen.services;
 
 
 import com.proffen.dto.requests.MemberRegisterRequest;
+import com.proffen.exceptions.ResourceAlreadyExistsException;
 import com.proffen.models.Member;
 import com.proffen.exceptions.ResourceNotFoundException;
 import com.proffen.models.enums.Role;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,6 +34,8 @@ public class MemberService {
     }
 
     public Member register(MemberRegisterRequest request, PasswordEncoder encoder) {
+        log.info("Try to login with username: {}", request.username());
+        checkMemberAlreadyExists(request.username());
         Member member = new Member(
                 null,
                 request.username(),
@@ -48,6 +52,15 @@ public class MemberService {
     public Member loadByUsername(String username) {
         return memberRepo.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+    }
+
+    private void checkMemberAlreadyExists(String username) {
+        log.info("Try to check if member with username: {} already exists", username);
+
+        Optional<Member> optionalMember = memberRepo.findByUsername(username);
+        if (optionalMember.isPresent()) {
+            throw new ResourceAlreadyExistsException("Member is already exists");
+        }
     }
 
 }
