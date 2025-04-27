@@ -30,6 +30,9 @@ dev-up-backend:
 dev-up-postgres:
 	docker compose -f compose.yml -f compose.dev.yml up postgres pgadmin -d
 
+push-backend:
+	docker push ${BACKEND_IMAGE}
+
 .PHONY: help
 help:
 	@echo "Available targets:"
@@ -37,3 +40,4 @@ help:
 	@echo "  build-backend   - Build backend only"
 	@echo "  dev-up-backend  - Start development environment"
 	@echo "  dev-up-postgres - Start development database and DBMS pgadmin"
+	@echo "  push-backend    - Push docker backend docker image to repo"
