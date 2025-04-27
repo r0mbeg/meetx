@@ -19,13 +19,10 @@ export
 all: build-backend build-frontend
 
 build-backend:
-	@echo "Building JAR..."
-	cd backend && mvn clean package
-	@echo "\nBuilding Docker image..."
-	docker build -t ${BACKEND_IMAGE} \
-		--build-arg JAR_FILE=target/*.jar \
-		-f backend/Dockerfile .
+	@echo "Building Docker image (with JAR build inside)..."
+	docker build -t ${BACKEND_IMAGE} -f backend/Dockerfile backend
 	@echo "\nImage ${BACKEND_IMAGE} ready!"
+
 
 dev-up-backend:
 	docker compose -f compose.yml -f compose.dev.yml up postgres backend pgadmin -d
