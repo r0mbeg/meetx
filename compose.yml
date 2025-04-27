@@ -54,6 +54,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - JWT_ACCESS_TTL=${JWT_ACCESS_TTL}
       - JWT_REFRESH_TTL=${JWT_REFRESH_TTL}
+      - TZ=${TZ}
     healthcheck:
       <<: *healthcheck
       test: ["CMD", "curl", "-f", "http://localhost:${BACKEND_PORT}/actuator/health"]
