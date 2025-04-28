@@ -10,7 +10,7 @@ spring:
     driverClassName: org.postgresql.Driver
 
   jackson:
-    time-zone: ${TZ}
+    time-zone: ${TZ:UTC}
 
   jpa:
     hibernate:

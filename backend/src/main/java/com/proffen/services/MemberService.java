@@ -23,13 +23,19 @@ public class MemberService {
     private final MemberRepo memberRepo;
 
     public List<Member> getAll() {
-        log.info("Try to retrieve all members");
+        log.info("Try to get all members");
         return memberRepo.findAll();
     }
 
     public Member getById(Long id) {
-        log.info("Try to retrieve member with id: {}", id);
+        log.info("Try to get member with id: {}", id);
         return memberRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+    }
+
+    public Member getByUsername(String username) {
+        log.info("Try to get member with username: {}", username);
+        return memberRepo.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
     }
 
@@ -62,5 +68,4 @@ public class MemberService {
             throw new ResourceAlreadyExistsException("Member is already exists");
         }
     }
-
 }

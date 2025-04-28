@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -36,20 +37,20 @@ public class Event {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
     @Column(name = "date_time")
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
-    private LocalDateTime dateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
+    private OffsetDateTime dateTime;
 
     @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false)
@@ -62,7 +63,5 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "member_id")
     )
     private List<Member> participants;
-
-
 
 }

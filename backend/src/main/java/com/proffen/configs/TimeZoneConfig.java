@@ -11,7 +11,7 @@ import java.util.TimeZone;
 @Slf4j
 @Configuration
 public class TimeZoneConfig {
-    @Value("${TZ:UTC}")
+    @Value("${TZ:Europe/Moscow}")
     private String timezone;
 
     @PostConstruct

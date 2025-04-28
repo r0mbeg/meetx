@@ -12,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,17 +29,17 @@ public record EventResponse (
 
         String location,
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
         @NotNull(message = "Event creation date must not be null")
-        LocalDateTime createdAt,
+        OffsetDateTime createdAt,
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
         @NotNull(message = "Event update date must not be null")
-        LocalDateTime updatedAt,
+        OffsetDateTime updatedAt,
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmX")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmXXX")
         @NotNull(message = "Event date must not be null")
-        LocalDateTime dateTime,
+        OffsetDateTime dateTime,
 
         @NotNull(message = "Event admin must not be null")
         MemberResponse admin,
