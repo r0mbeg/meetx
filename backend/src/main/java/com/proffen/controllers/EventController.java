@@ -1,13 +1,16 @@
 package com.proffen.controllers;
 
 
+import com.proffen.dto.requests.EventRequest;
 import com.proffen.dto.responses.EventResponse;
 import com.proffen.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +48,20 @@ public class EventController {
     @ApiResponse(responseCode = "200",
             description = "Event created successfully",
             content = @Content(schema = @Schema(implementation = EventResponse.class)))
-
+    public EventResponse createEvent(
+            @Parameter(description = "Event creation data", required = true)
+            @Valid @RequestBody EventRequest request,
+            Principal principal) {
+        log.info("Received request to create an event with title: {}", request.title());
+        return EventResponse.toResponse(eventService.create(
+                request.title(),
+                request.description(),
+                request.location(),
+                principal.getName(),
+                request.dateTime(),
+                request.participants()
+        ));
+    }
 
 
     @GetMapping("/events/{id}")

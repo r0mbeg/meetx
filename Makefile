@@ -14,9 +14,9 @@ PGADMIN_IMAGE=dpage/pgadmin4:8.3
 
 export
 
-.PHONY: all build-backend dev-up-postgres
+.PHONY: build-backend dev-up-postgres
 
-all: build-backend build-frontend
+#all: build-backend build-frontend
 
 build-backend:
 	@echo "Building Docker image (with JAR build inside)..."
@@ -39,7 +39,7 @@ push-backend:
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  all             - Build all components"
+#	@echo "  all             - Build all components"
 	@echo "  build-backend   - Build backend only"
 	@echo "  dev-up-backend  - Start development environment"
 	@echo "  dev-up-postgres - Start development database and DBMS pgadmin"
