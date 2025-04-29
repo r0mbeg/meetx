@@ -2,7 +2,7 @@ package com.proffen.controllers;
 
 
 import com.proffen.dto.responses.MemberResponse;
-import com.proffen.exceptions.ErrorMessage;
+import com.proffen.dto.responses.ErrorResponse;
 import com.proffen.services.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -33,19 +32,22 @@ import java.util.stream.Collectors;
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400",
                 description = "Invalid input parameters or malformed request",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "401",
                 description = "Unauthorized - Invalid or expired JWT token",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "403",
                 description = "Forbidden - Insufficient permissions",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "404",
                 description = "Member not found",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+        @ApiResponse(responseCode = "422",
+                description = "Validation error",
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "500",
                 description = "Internal server error",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 })
 @RequiredArgsConstructor
 public class MemberController {
@@ -76,7 +78,7 @@ public class MemberController {
                     content = @Content(schema = @Schema(implementation = MemberResponse.class))),
             @ApiResponse(responseCode = "404",
                     description = "Member not found",
-                    content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public MemberResponse getMemberById(
             @Parameter(description = "ID of the member to get",
@@ -87,3 +89,4 @@ public class MemberController {
         return MemberResponse.toResponse(memberService.getById(id));
     }
 }
+

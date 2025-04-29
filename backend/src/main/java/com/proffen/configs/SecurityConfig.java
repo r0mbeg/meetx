@@ -2,6 +2,8 @@ package com.proffen.configs;
 
 import com.proffen.security.JwtAuthFilter;
 import com.proffen.security.JwtTokenProvider;
+import com.proffen.security.handlers.CustomAccessDeniedHandler;
+import com.proffen.security.handlers.CustomAuthenticationEntryPoint;
 import com.proffen.services.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +25,8 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberService memberService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -30,18 +34,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            // 401 Unauthorized — нет или неправильный токен
-                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                            response.setContentType("application/json");
-                            response.getWriter().write("{\"error\": \"Unauthorized. Please provide a valid token.\"}");
-                        })
-                        .accessDeniedHandler((request, response, accessDeniedException) -> {
-                            // 403 Forbidden — токен есть, но прав недостаточно
-                            response.setStatus(HttpStatus.FORBIDDEN.value());
-                            response.setContentType("application/json");
-                            response.getWriter().write("{\"error\": \"Forbidden. You don't have permissions to access this resource.\"}");
-                        })
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(getPublicEndpoints()).permitAll()

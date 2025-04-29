@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "PROSTO SBER HACK API",
-                description = "Sample API",
+                title = "MEETX API",
+                description = "Documentation",
                 version = "1.0.0"
         ),
         servers = {
@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
         tags = {
                 @Tag(name = "Authorization and Registration", description = "API for auth and registration"),
                 @Tag(name = "Member Management", description = "API for members"),
-
+                @Tag(name = "Event Management", description = "API for events"),
         }
 )
 @SecurityScheme(

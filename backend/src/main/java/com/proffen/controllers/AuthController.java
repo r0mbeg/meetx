@@ -4,7 +4,7 @@ import com.proffen.dto.requests.MemberLogInRequest;
 import com.proffen.dto.requests.MemberRegisterRequest;
 import com.proffen.dto.responses.JwtResponse;
 import com.proffen.dto.responses.MemberResponse;
-import com.proffen.exceptions.ErrorMessage;
+import com.proffen.dto.responses.ErrorResponse;
 import com.proffen.models.Member;
 import com.proffen.security.JwtTokenProvider;
 import com.proffen.services.MemberService;
@@ -34,16 +34,19 @@ import org.springframework.web.bind.annotation.RestController;
         @ApiResponse(responseCode = "200", description = "Successful operation"),
         @ApiResponse(responseCode = "400",
                 description = "Invalid input parameters or malformed request",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "401",
                 description = "Unauthorized - Invalid credentials or expired token",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "403",
                 description = "Forbidden - Insufficient permissions",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class))),
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+        @ApiResponse(responseCode = "422",
+                description = "Validation error",
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "500",
                 description = "Internal server error",
-                content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+                content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 })
 @RequiredArgsConstructor
 public class AuthController {
@@ -61,15 +64,17 @@ public class AuthController {
                     description = "Registration successful",
                     content = @Content(schema = @Schema(implementation = JwtResponse.class))),
             @ApiResponse(responseCode = "409",
-                    description = "Conflict - Member is already exists",
-                    content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+                    description = "Member is already exists",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422",
+                    description = "Validation error",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<MemberResponse> register(@RequestBody @Valid MemberRegisterRequest request) {
         Member member = memberService.register(request, passwordEncoder);
         log.info("Register attempt for username: {}", request.username());
         return ResponseEntity.ok(MemberResponse.toResponse(member));
     }
-
 
 
     @PostMapping("/login")
@@ -82,7 +87,10 @@ public class AuthController {
                     content = @Content(schema = @Schema(implementation = JwtResponse.class))),
             @ApiResponse(responseCode = "404",
                     description = "Member is not found",
-                    content = @Content(schema = @Schema(implementation = ErrorMessage.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422",
+                    description = "Validation error",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<JwtResponse> login(@RequestBody MemberLogInRequest request) {
         Member member = memberService.loadByUsername(request.username());
