@@ -36,6 +36,9 @@ dev-down:
 push-backend:
 	docker push ${BACKEND_IMAGE}
 
+print-config:
+	docker compose -f compose.yml -f compose.dev.yml config
+
 .PHONY: help
 help:
 	@echo "Available targets:"
@@ -45,3 +48,4 @@ help:
 	@echo "  dev-up-postgres - Start development database and DBMS pgadmin"
 	@echo "  dev-down        - Down dev environment"
 	@echo "  push-backend    - Push docker backend docker image to repo"
+	@echo "  print-config    - Prints docker-compose config"
