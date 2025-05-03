@@ -2,6 +2,8 @@ services:
   backend:
     ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
+    environment:
+      DDL_MODE: ${DDL_MODE}
   postgres:
     ports:
       - "5432:5432"
