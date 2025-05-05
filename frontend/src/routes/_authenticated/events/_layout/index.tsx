@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 
-export const Route = createFileRoute('/_authenticated/posts/_layout/')({
+export const Route = createFileRoute('/_authenticated/events/_layout/')({
     component: RouteComponent,
 })
 
@@ -27,8 +27,8 @@ function RouteComponent() {
                 data.slice(0, 10).map((post: { id: string }) => (
                     <Link
                         key={post.id}
-                        to="/posts/$postid"
-                        params={{ postid: post.id }}
+                        to="/events/$eventid"
+                        params={{ eventid: post.id }}
                     >
                         Пост {post.id}
                     </Link>
