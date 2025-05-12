@@ -2,6 +2,7 @@ package com.proffen.controllers;
 
 
 import com.proffen.dto.requests.EventRequest;
+import com.proffen.dto.responses.ErrorResponse;
 import com.proffen.dto.responses.EventResponse;
 import com.proffen.services.EventService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +67,17 @@ public class EventController {
 
 
     @GetMapping("/events/{id}")
+    @Operation(summary = "Get event by ID",
+            description = "Get event details by their unique id",
+            operationId = "getEventById")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Event details got successfully",
+                    content = @Content(schema = @Schema(implementation = EventResponse.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Event not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     public EventResponse getEventById(@PathVariable Long id) {
         log.info("Getting event with id {}", id);
         return EventResponse.toResponse(eventService.getById(id));

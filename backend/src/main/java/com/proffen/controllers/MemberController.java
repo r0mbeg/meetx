@@ -55,8 +55,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members")
-    @Operation(summary = "Gets all members list",
-            description = "Gets all members list without search and pagination",
+    @Operation(summary = "Get all members list",
+            description = "Get all members list without search and pagination",
             operationId = "getMembers")
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -69,8 +69,8 @@ public class MemberController {
     }
 
     @GetMapping("/members/{id}")
-    @Operation(summary = "Gets member by ID",
-            description = "Gets member details by their unique id",
+    @Operation(summary = "Get member by ID",
+            description = "Get member details by their unique id",
             operationId = "getMemberById")
     @ApiResponses({
             @ApiResponse(responseCode = "200",

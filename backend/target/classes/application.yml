@@ -17,7 +17,7 @@ spring:
   web:
     cors:
       allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
-      allowed-methods: ${ALLOWED_METHODS:GET, POST, PUT, DELETE}
+      allowed-methods: ${ALLOWED_METHODS:GET,POST,PUT,DELETE,OPTIONS}
       allowed-headers: "*"
       allow-credentials: true
 logging:
