@@ -3,6 +3,7 @@ package com.proffen.controllers;
 
 import com.proffen.dto.responses.MemberResponse;
 import com.proffen.dto.responses.ErrorResponse;
+import com.proffen.dto.responses.PageResponse;
 import com.proffen.services.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,10 +15,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,6 +57,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/members")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get all members list",
             description = "Get all members list without search and pagination",
             operationId = "getMembers")
@@ -67,6 +70,27 @@ public class MemberController {
         log.info("Getting all members");
         return memberService.getAll().stream().map(MemberResponse::toResponse).toList();
     }
+
+
+    @GetMapping("/members/search")
+    @Operation(summary = "Search members with pagination",
+            description = "Fuzzy search by username, name or email (case-insensitive), with pagination",
+            operationId = "searchMembers")
+    public PageResponse<MemberResponse> searchMembers(
+            @RequestParam("query")
+            @Parameter(description = "Search query (partial match on username, name, or email)",
+                    example = "Alex") String query,
+
+            @ParameterObject Pageable pageable) {
+
+        log.info("Searching members with query: {}", query);
+        return PageResponse.from(
+                memberService.search(query, pageable)
+                        .map(MemberResponse::toResponse)
+        );
+    }
+
+
 
     @GetMapping("/members/{id}")
     @Operation(summary = "Get member by ID",
