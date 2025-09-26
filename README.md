@@ -1,5 +1,5 @@
 # Meetx
-Application for organizing private events. Refactored project from [this](https://github.com/forafox/Sber-Teambuilding) repository: backend and frontend are united into a single project, optimized and improved containerization, more convenient assembly (via make) and etc.
+Application for organizing private events. Refactored project from [this](https://github.com/Alexxeev/xaxaton-event-app) repository: backend and frontend are united into a single project, optimized and improved containerization, more convenient assembly (via make) and etc.
 
 ## Current functionality (backend)
 * Registration and authorization of members
